@@ -10,6 +10,40 @@ import imutils
 import time
 import dlib
 import cv2
+<<<<<<< HEAD
+import threading
+
+class camThread(threading.Thread):
+    def __init__(self, previewName, camID):
+        threading.Thread.__init__(self)
+        self.previewName = previewName
+        self.camID = camID
+    def run(self):
+        print("Starting " + self.previewName)
+        camPreview(self.previewName, self.camID)
+
+def camPreview(previewName, camID):
+    cv2.namedWindow(previewName)
+    cam = cv2.VideoCapture(camID)
+    if cam.isOpened():  # try to get the first frame
+        rval, frame = cam.read()
+    else:
+        rval = False
+
+    while rval:
+        cv2.imshow(previewName, frame)
+        rval, frame = cam.read()
+        key = cv2.waitKey(20)
+        if key == 27:  # exit on ESC
+            break
+    cv2.destroyWindow(previewName)
+
+thread1 = camThread("Camera 1", 1)
+thread2 = camThread("Camera 2", 2)
+thread1.start()
+thread2.start()
+=======
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 
 def eye_aspect_ratio(eye):
 	# compute the euclidean distances between the two sets of
@@ -55,10 +89,21 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 # start the video stream thread
-print("[INFO] starting video stream thread1...")
+<<<<<<< HEAD
+print("[INFO] starting video stream thread...")
 vs = FileVideoStream(args["video"]).start()
 fileStream = True
 vs = VideoStream(src=0).start()
+=======
+print("[INFO] starting video stream thread1...")
+vs = FileVideoStream(args["video"]).start()
+fileStream = True
+<<<<<<< HEAD
+vs = VideoStream(src=0).start()
+=======
+vs = VideoStream(src=1).start()
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
+>>>>>>> 7a55dfed1d348919e68c93b084b4ac997bc41b68
 fileStream = False
 time.sleep(1.0)
 switch = 0
@@ -115,7 +160,11 @@ while True:
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
  
+<<<<<<< HEAD
+	# if the `q` key was pressed, break from the loop
+=======
 	# if the `esc` key was pressed, break from the loop
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 	if key == 27:
 		break
 # do a bit of cleanup

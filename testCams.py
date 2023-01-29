@@ -1,8 +1,12 @@
 import cv2
 import threading
+<<<<<<< HEAD
+
+=======
 import matplotlib
 # matplotlib.use('Agg')
 matplotlib.use("Qt5Agg")
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 class camThread(threading.Thread):
     def __init__(self, previewName, camID):
         threading.Thread.__init__(self)
@@ -30,6 +34,8 @@ def camPreview(previewName, camID):
 
 # Create two threads as follows
 thread1 = camThread("Camera 1", 0)
+
 #thread2 = camThread("Camera 2", 2)
 thread1.start()
 #thread2.start()
+
