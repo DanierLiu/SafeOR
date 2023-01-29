@@ -4,6 +4,7 @@ import json
 import keyboard
 import asyncio
 
+
 from audioTranscription import *
 
 cred = credentials.Certificate("credentials.json")

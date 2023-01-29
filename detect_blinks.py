@@ -10,6 +10,7 @@ import imutils
 import time
 import dlib
 import cv2
+<<<<<<< HEAD
 import threading
 
 class camThread(threading.Thread):
@@ -41,6 +42,8 @@ thread1 = camThread("Camera 1", 1)
 thread2 = camThread("Camera 2", 2)
 thread1.start()
 thread2.start()
+=======
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 
 def eye_aspect_ratio(eye):
 	# compute the euclidean distances between the two sets of
@@ -86,10 +89,17 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 (rStart, rEnd) = face_utils.FACIAL_LANDMARKS_IDXS["right_eye"]
 
 # start the video stream thread
+<<<<<<< HEAD
 print("[INFO] starting video stream thread...")
 vs = FileVideoStream(args["video"]).start()
 fileStream = True
 vs = VideoStream(src=0).start()
+=======
+print("[INFO] starting video stream thread1...")
+vs = FileVideoStream(args["video"]).start()
+fileStream = True
+vs = VideoStream(src=1).start()
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 fileStream = False
 time.sleep(1.0)
 switch = 0
@@ -102,7 +112,7 @@ while True:
 	# it, and convert it to grayscale
 	# channels)
 	frame = vs.read()
-	frame = imutils.resize(frame, width=1150)
+	frame = imutils.resize(frame, width=900)
 	gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 	# detect faces in the grayscale frame
 	rects = detector(gray, 0)
@@ -146,7 +156,11 @@ while True:
 	cv2.imshow("Frame", frame)
 	key = cv2.waitKey(1) & 0xFF
  
+<<<<<<< HEAD
 	# if the `q` key was pressed, break from the loop
+=======
+	# if the `esc` key was pressed, break from the loop
+>>>>>>> c0af81354ac6acc3c7a534cb1d2374ba7dd19ce8
 	if key == 27:
 		break
 # do a bit of cleanup
