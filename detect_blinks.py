@@ -40,7 +40,7 @@ EYE_AR_THRESH = 0.3
 EYE_AR_CONSEC_FRAMES = 3
 # initialize the frame counters and the total number of blinks
 COUNTER = 0
-TOTAL = 0
+STARTING = time.time()
 
 
 # initialize dlib's face detector (HOG-based) and then create
@@ -107,6 +107,7 @@ while True:
 				if(endTime - startTime >= 4):
 					playsound('./wakeUp.mp3', False)
 					print('playing sound using playsound')
+					COUNTER += 1
 				switch = 0
 		cv2.putText(frame, "EAR: {:.2f}".format(ear), (10, 30),
 			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
@@ -121,3 +122,12 @@ while True:
 # do a bit of cleanup
 cv2.destroyAllWindows()
 vs.stop()
+ENDING = time.time()
+
+
+def get_surgery_time():
+	TOTALTIME = ENDING - STARTING
+	return TOTALTIME
+
+def get_fatigue():
+	return COUNTER
