@@ -2,6 +2,7 @@ from __future__ import division
 
 import re
 import sys
+import subprocess
 
 from google.cloud import speech
 
@@ -12,6 +13,7 @@ from six.moves import queue
 RATE = 16000
 CHUNK = int(RATE / 10)  # 100ms
 
+grammar = {'soy sauce', 'fork'}
 
 class MicrophoneStream(object):
     """Opens a recording stream as a generator yielding the audio chunks."""
@@ -81,7 +83,7 @@ class MicrophoneStream(object):
             yield b"".join(data)
 
 
-def listen_print_loop(responses):
+def listen_print_loop(responses, db):
     """Iterates through server responses and prints them.
 
     The responses passed is a generator that will block until a response
@@ -125,7 +127,13 @@ def listen_print_loop(responses):
             num_chars_printed = len(transcript)
 
         else:
-            print(transcript + overwrite_chars)
+            if "fork" in (transcript + overwrite_chars):
+                doc_ref = db.collection(u'equipment').document(u'fork')
+                doc_ref.update({u'requested':True})
+            
+            elif "scalpel" in (transcript + overwrite_chars):
+                doc_ref = db.collection(u'equipment').document(u'scalpel')
+                doc_ref.update({u'requested':True})
 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.
@@ -136,7 +144,7 @@ def listen_print_loop(responses):
             num_chars_printed = 0
 
 
-def start_audio_recog():
+def start_audio_recog(db):
     # See http://g.co/cloud/speech/docs/languages
     # for a list of supported languages.
     language_code = "en-US"  # a BCP-47 language tag
@@ -153,7 +161,7 @@ def start_audio_recog():
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=RATE,
         language_code=language_code,
-        model='medical_conversation',
+        model='medical_dictation',
         diarization_config=diarization_config
     )
 
@@ -172,4 +180,4 @@ def start_audio_recog():
         responses = client.streaming_recognize(streaming_config, requests)
 
         # Now, put the transcription responses to use.
-        listen_print_loop(responses)
+        listen_print_loop(responses, db)
