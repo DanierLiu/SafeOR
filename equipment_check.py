@@ -71,6 +71,12 @@ while True:
         doc_ref = db.collection(u'equipment').document(u'fork')
         doc_ref.update({u'taken':True})
     
+    if(labels[str(result)] == "Fork and Scalpel"):
+        doc_ref = db.collection(u'equipment').document(u'fork')
+        doc_ref.update({u'taken':False})
+        doc_ref = db.collection(u'equipment').document(u'fork')
+        doc_ref.update({u'taken':False})
+    
     # Show the frame   
     cv2.imshow('Frame', frame)
 
