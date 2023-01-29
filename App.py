@@ -16,7 +16,7 @@ doc_ref = db.collection(u'equipment').document(u'fork')
 doc_ref.update({u'requested':False})
 doc_ref = db.collection(u'equipment').document(u'scalpel')
 doc_ref.update({u'requested':False})
-#asyncio.run(monitor_fatigue())
+asyncio.run(monitor_fatigue())
 while True:
     start_audio_recog(db)
     time.sleep(2)
@@ -35,5 +35,3 @@ while True:
     doc_ref.update({u'requested':False})
     doc_ref = db.collection(u'equipment').document(u'scalpel')
     doc_ref.update({u'requested':False})
-
-
