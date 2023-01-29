@@ -127,13 +127,20 @@ def listen_print_loop(responses, db):
             num_chars_printed = len(transcript)
 
         else:
-            if "fork" in (transcript + overwrite_chars):
-                doc_ref = db.collection(u'equipment').document(u'fork')
-                doc_ref.update({u'requested':True})
-            
-            elif "scalpel" in (transcript + overwrite_chars):
-                doc_ref = db.collection(u'equipment').document(u'scalpel')
-                doc_ref.update({u'requested':True})
+            try:
+                if "fork" in (transcript + overwrite_chars):
+                    print('\nfork requested')
+                    doc_ref = db.collection(u'equipment').document(u'fork')
+                    doc_ref.update({u'requested':True})
+                
+                elif "scalpel" in (transcript + overwrite_chars):
+                    print('\nscalpel requested')
+                    doc_ref = db.collection(u'equipment').document(u'scalpel')
+                    doc_ref.update({u'requested':True})
+
+                break
+            except Exception as e:
+                print(f"Issue registering request, {e}")
 
             # Exit recognition if any of the transcribed phrases could be
             # one of our keywords.

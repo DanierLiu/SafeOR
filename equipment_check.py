@@ -1,6 +1,12 @@
 import tensorflow.keras
 import numpy as np
 import cv2
+import firebase_admin
+from firebase_admin import credentials, db, firestore
+
+cred = credentials.Certificate("credentials.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 # Generates a dict to store the labels(keys) and its names(values)
 
@@ -57,6 +63,13 @@ while True:
     cv2.putText(frame,  "Label : " +
                 labels[str(result)], (230, 50), font, 1, (0, 255, 0), 2, cv2.LINE_AA)
 
+    if(labels[str(result)] == "Fork"):
+        doc_ref = db.collection(u'equipment').document(u'scalpel')
+        doc_ref.update({u'taken':True})
+
+    if(labels[str(result)] == "Scalpel"):
+        doc_ref = db.collection(u'equipment').document(u'fork')
+        doc_ref.update({u'taken':True})
     
     # Show the frame   
     cv2.imshow('Frame', frame)
