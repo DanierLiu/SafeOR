@@ -3,6 +3,7 @@ from scipy.spatial import distance as dist
 from imutils.video import FileVideoStream
 from imutils.video import VideoStream
 from imutils import face_utils
+from playsound import playsound
 import numpy as np
 import argparse
 import imutils
@@ -104,12 +105,11 @@ while True:
 		if ear > EYE_AR_THRESH:
 			if switch == 1:
 				if(endTime - startTime >= 4):
-					print("WAKE UP")
+					playsound('./wakeUp.mp3', False)
+					print('playing sound using playsound')
 				switch = 0
-		cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (120, 123, 0), 2)
-		cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 120, 120), 2)
+		cv2.putText(frame, "EAR: {:.2f}".format(ear), (10, 30),
+			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
  
 	# show the frame
 	cv2.imshow("Frame", frame)
