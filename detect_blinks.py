@@ -58,7 +58,7 @@ predictor = dlib.shape_predictor(args["shape_predictor"])
 print("[INFO] starting video stream thread1...")
 vs = FileVideoStream(args["video"]).start()
 fileStream = True
-vs = VideoStream(src=1).start()
+vs = VideoStream(src=0).start()
 fileStream = False
 time.sleep(1.0)
 switch = 0
