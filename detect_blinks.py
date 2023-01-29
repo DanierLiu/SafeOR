@@ -3,12 +3,44 @@ from scipy.spatial import distance as dist
 from imutils.video import FileVideoStream
 from imutils.video import VideoStream
 from imutils import face_utils
+from playsound import playsound
 import numpy as np
 import argparse
 import imutils
 import time
 import dlib
 import cv2
+import threading
+
+class camThread(threading.Thread):
+    def __init__(self, previewName, camID):
+        threading.Thread.__init__(self)
+        self.previewName = previewName
+        self.camID = camID
+    def run(self):
+        print("Starting " + self.previewName)
+        camPreview(self.previewName, self.camID)
+
+def camPreview(previewName, camID):
+    cv2.namedWindow(previewName)
+    cam = cv2.VideoCapture(camID)
+    if cam.isOpened():  # try to get the first frame
+        rval, frame = cam.read()
+    else:
+        rval = False
+
+    while rval:
+        cv2.imshow(previewName, frame)
+        rval, frame = cam.read()
+        key = cv2.waitKey(20)
+        if key == 27:  # exit on ESC
+            break
+    cv2.destroyWindow(previewName)
+
+thread1 = camThread("Camera 1", 1)
+thread2 = camThread("Camera 2", 2)
+thread1.start()
+thread2.start()
 
 def eye_aspect_ratio(eye):
 	# compute the euclidean distances between the two sets of
@@ -104,12 +136,11 @@ while True:
 		if ear > EYE_AR_THRESH:
 			if switch == 1:
 				if(endTime - startTime >= 4):
-					print("WAKE UP")
+					playsound('./wakeUp.mp3', False)
+					print('playing sound using playsound')
 				switch = 0
-		cv2.putText(frame, "Blinks: {}".format(TOTAL), (10, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (120, 123, 0), 2)
-		cv2.putText(frame, "EAR: {:.2f}".format(ear), (300, 30),
-			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 120, 120), 2)
+		cv2.putText(frame, "EAR: {:.2f}".format(ear), (10, 30),
+			cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
  
 	# show the frame
 	cv2.imshow("Frame", frame)
