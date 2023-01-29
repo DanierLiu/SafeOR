@@ -39,6 +39,7 @@ while True:
     # Choose a suitable font
     font = cv2.FONT_HERSHEY_SIMPLEX
     ret, frame = image.read()
+    key = cv2.waitKey(1) & 0xFF
     frame = cv2.flip(frame, 1)
     # In case the image is not read properly
     if not ret:
@@ -80,7 +81,6 @@ while True:
     # Show the frame   
     cv2.imshow('Frame', frame)
 
-    key = cv2.waitKey(1) & 0xFF
  
 	# if the `esc` key was pressed, break from the loop
     if key == 27:

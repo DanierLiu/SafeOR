@@ -10,6 +10,12 @@ import imutils
 import time
 import dlib
 import cv2
+import firebase_admin
+from firebase_admin import credentials, db, firestore
+
+cred = credentials.Certificate("credentials.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def eye_aspect_ratio(eye):
 	# compute the euclidean distances between the two sets of
@@ -104,7 +110,7 @@ while True:
 				endTime = time.time()
 		if ear > EYE_AR_THRESH:
 			if switch == 1:
-				if(endTime - startTime >= 4):
+				if(endTime - startTime >= 3):
 					playsound('./wakeUp.mp3', False)
 					print('playing sound using playsound')
 					COUNTER += 1
@@ -123,11 +129,6 @@ while True:
 cv2.destroyAllWindows()
 vs.stop()
 ENDING = time.time()
-
-
-def get_surgery_time():
-	TOTALTIME = ENDING - STARTING
-	return TOTALTIME
-
-def get_fatigue():
-	return COUNTER
+doc_ref = db.collection(u'records').document(u'patient')
+doc_ref.update({u'time':ENDING - STARTING})
+doc_ref.update({u'fatigues':COUNTER})
