@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css';
 import Link from 'next/link';
 import { getSortedPostsData } from '../lib/posts';
 import Layout from '../components/layout';
-
+import { useState } from "react"; 
 
 export async function getStaticProps() {
   const allPostsData = getSortedPostsData();
@@ -15,13 +15,18 @@ export async function getStaticProps() {
 }
 
 export default function Home({ allPostsData }) {
-  function handleClick() {
-    alert("increment like count")
+const [showPopup, setShowPopup] = useState(false);
+
+  async function handleClick() {
+    setShowPopup(true);
+
+    const data = await fetch('url')
   }
 
   return (
    
-    <div className={styles.container}>
+    <div className={styles.container} id="main_content">
+   
       <Head>
         <title>SafeOR</title>
         <link rel="icon" href="/favicon.ico" />
@@ -29,13 +34,17 @@ export default function Home({ allPostsData }) {
 
       <img src= "images/logo.jpg" />
       <p class="text-[#5CC3C6] text-6xl mt-10 mb-5">Shaping technology to save lives</p>
-     <Link href="/procedure">
+     <div style={{display: showPopup ? "none" : "block"}}>
         <button onClick={handleClick} id="script" class="bg-[#5CC3C6] text-white font-bold  rounded-full m-5 " >
           Start Procedure
         </button>
-      
-        </Link>
-        <Link href="/report">
+      </div>
+      <div style={{position: 'absolute', "background-color": "white", width:"100%", height:"100%", display: showPopup ? "block" : "none" }}
+      className="fixed w-screen h-screen ">
+        <p>Processing</p>
+      </div>
+
+              <Link href="/report">
         <button class="bg-[#5CC3C6] text-white font-bold  rounded-full ">
           View Report
         </button>
