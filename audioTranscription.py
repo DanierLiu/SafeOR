@@ -136,7 +136,7 @@ def listen_print_loop(responses, db):
                 elif "scalpel" in (transcript + overwrite_chars):
                     print('\nscalpel requested')
                     doc_ref = db.collection(u'equipment').document(u'scalpel')
-                    doc_ref.update({u'requested':True})
+                    doc_ref.update({u'requested':True})    
 
                 break
             except Exception as e:
