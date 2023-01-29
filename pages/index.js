@@ -27,7 +27,7 @@ export default function Home({ allPostsData }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <img src= "images/logo.jpg" />
+      <img class="mt-10" src= "images/logo.jpg" />
       <p class="text-[#5CC3C6] text-6xl mt-10 mb-5">Shaping technology to save lives</p>
      <Link href="/procedure">
         <button onClick={handleClick} id="script" class="bg-[#5CC3C6] text-white font-bold  rounded-full m-5 " >
